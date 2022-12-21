@@ -1,0 +1,21 @@
+.navigation{
+    padding-top: 2rem;
+}
+.featured-products{
+    padding-top: 2rem;
+}
+.img-size{
+    width: 200px;
+    height: 200px;
+}
+.card-style{
+    margin-left: 4rem;
+    margin-top: 2rem;
+}
+.heading{/*Not working*/
+    align-items: center;
+}
+.featured-product-style{
+    margin-left: 1.2rem;
+    margin-top: 2rem;
+}

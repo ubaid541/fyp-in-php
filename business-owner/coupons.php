@@ -1,0 +1,321 @@
+<?php
+
+include './includes/header.php';
+include './includes/top-bar.php';
+include './includes/sidebar.php';
+
+?>
+
+<!-- Category table starts here -->
+<main class="mt-5 pt-3">
+    <div class="container-fluid">
+        <!-- page heading starts  -->
+        <div class="page-heading">
+            <div class="row">
+                <?php if (isset($_SESSION['status'])) {
+                    echo "<div class='alert alert-success' role='alert'>" . $_SESSION['status'] . "</div>";
+                    unset($_SESSION['status']);
+                } elseif (isset($_SESSION['error'])) {
+                    echo "<div class='alert alert-danger' role='alert'>" . $_SESSION['error'] . "</div>";
+                    unset($_SESSION['error']);
+                } ?>
+            </div>
+            <div class="row">
+                <div class="d-sm-flex align-items-center justify-content-between mb-1 mt-5">
+                    <h1 class="h3 mb-0 text-gray-800">
+                        <i class="bi bi-filter"></i>Coupon
+                    </h1>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="admin.php">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Coupons
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- page heading ends  -->
+        <!-- Addons table starts here -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row" style="width: 100%">
+                            <div class="col-8 mb-4 mb-lg-1">
+                                <form class="d-flex ms-auto">
+                                    <div class="input-group my-3 my-lg-0">
+                                        <input type="text" id="searchCoupon" onkeyup="myFunction()" class="form-control" placeholder="Search Attributes" aria-label="Search Attributes" aria-describedby="button-addon2" />
+                                        <button class="btn btn-primary" type="button" id="button-addon2">
+                                            <i class="bi bi-search"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-4 mb-3 mb-lg-0">
+                                <div class="d-grid gap-2">
+                                    <?php if ($_SESSION["user_role"] == '1') { ?>
+                                        <a data-bs-toggle="modal" data-bs-target="#addCouponAttrs" class="btn btn-primary btn-block" type="button">
+                                            <i class="bi bi-plus-circle-fill"></i>
+                                            Add Coupon
+                                        </a>
+                                    <?php } ?>
+                                </div>
+                            </div>
+                            <!-- add coupon modal starts-->
+                            <div class="modal fade" id="addCouponAttrs" tabindex="-1" aria-labelledby="addCouponLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="addCouponLabel">
+                                                Add Coupon
+                                            </h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <form action="./controller-files/coupon/insert-coupon.php" method="post" id="cat_form" enctype="multipart/form-data">
+                                                        <div class="row">
+                                                            <div class="col-sm-3 col-md-12">
+                                                                <div class="mb-3">
+                                                                    <div class="form-floating">
+                                                                        <input name="cpn_name" class="form-control" type="text" placeholder="Coupon Name" required />
+                                                                        <label for="floatingInput">Coupon Name</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-sm-3 col-md-12">
+                                                                <div class="mb-3">
+                                                                    <div class="form-floating">
+                                                                        <textarea name="cpn_desc" class="form-control" type="text" placeholder="Description" style="height: 80px" required></textarea>
+                                                                        <label for="floatingInput">Description</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-sm-3 col-md-12">
+                                                                <div class="mb-3">
+                                                                    <div class="form-floating">
+                                                                        <input name="cpn_val" class="form-control" type="number" placeholder="Coupon value" required />
+                                                                        <label for="floatingInput">Value</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-sm-3 col-md-12">
+                                                                <div class="mb-3">
+                                                                    <div class="form-floating">
+                                                                        <input name="cpn_exp_date" class="form-control" type="date" placeholder="Coupon expiry date" required />
+                                                                        <label for="floatingInput">Expiry Date</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-sm-3 col-md-12">
+                                                                <div class="mb-3">
+                                                                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="cpn_status">
+                                                                        <option value="0">Active</option>
+                                                                        <option value="1">Disable</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                                                Cancel
+                                            </button>
+                                            <button type="submit" name="add_cpn" class="btn btn-primary">
+                                                Save changes
+                                            </button>
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- add coupon modal ends-->
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <?php
+                        include './config/config.php';
+                        //$current_date = date("Y-m-d");
+                        // calculate offset 
+                        $limit = 3;
+                        if (isset($_GET["page"])) {
+                            $page = $_GET["page"];
+                        } else {
+                            $page = 1;
+                        }
+                        $offset = ($page - 1) * $limit;
+
+                        // select query with offset and limit
+                        if ($_SESSION["user_role"] == '0') {
+                            /* select query of coupon table for admin user */
+                            $sql = "SELECT * FROM coupon_code ORDER BY coupon_id DESC LIMIT {$offset},{$limit}";
+                        } elseif ($_SESSION["user_role"] == '1') {
+                            /* select query of coupon table for seller user */
+                            $sql = "SELECT * FROM coupon_code where coupon_code.business_id = {$_SESSION['business_id']}
+                        ORDER BY coupon_code.coupon_id DESC LIMIT {$offset},{$limit}";
+                        }
+                        $result = mysqli_query($conn, $sql);
+                        if (mysqli_num_rows($result) > 0) { ?>
+                            <div class="table-responsive" id="couponTable">
+                                <table class="table data-table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope='col'>#</th>
+                                            <th scope='col'>Name</th>
+                                            <th scope='col'>Description</th>
+                                            <th scope='col'>Value</th>
+                                            <th scope='col'>Date Added</th>
+                                            <th scope='col'>Expiry Date</th>
+                                            <th scope='col'>No of products</th>
+                                            <th scope='col'>Status</th>
+                                            <th scope='col'>Edit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $serial = $offset + 1;
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                        ?>
+                                            <tr>
+                                                <th scope="row"><?php echo $serial; ?></th>
+                                                <td>
+                                                    <?php echo $row['coupon_name']; ?>
+                                                </td>
+                                                <td>
+                                                    <?php echo $row['coupon_desc']; ?>
+                                                </td>
+                                                <td><?php echo $row['coupon_value']; ?></td>
+                                                <td><?php echo $row['coupon_added_on']; ?></td>
+                                                <td><?php echo $row['coupon_expired']; ?></td>
+                                                <td><?php echo $row['pro_id']; ?></td>
+                                                <td><?php
+                                                    if ($row['coupon_status'] == 0) {
+                                                        echo "<p class=''>Active </p>";
+                                                    } else {
+                                                        echo  "<p class='text-danger'>Deactivated</p>";
+                                                    }
+
+                                                    ?>
+                                                </td>
+                                                <td>
+
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <i class="bi bi-gear-fill"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu shadow-lg rounded mt-1" aria-labelledby="dropdownMenuButton1">
+                                                            <?php if ($_SESSION["user_role"] == '1') { ?>
+                                                                <li>
+                                                                    <a class="dropdown-item btn" href='update-coupon.php?id=<?php echo $row['coupon_id']; ?>'>Edit</a>
+                                                                </li>
+                                                            <?php } ?>
+                                                            <li>
+                                                                <a class="dropdown-item" href='./controller-files/coupon/delete-coupon.php?id=<?php echo $row['coupon_id']; ?>'>Delete</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+                                        <?php
+                                            $serial++;
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <?php
+                        } else {
+
+                            echo '<h3 class="text-center">No results found.</h3>';
+                        }
+                        ?>
+
+                        <!-- select query for pagination -->
+                        <?php
+                        if ($_SESSION["user_role"] == '1') {
+                            $sql1 = "SELECT * FROM coupon_code where business_id = {$_SESSION['business_id']} ";
+                        } elseif ($_SESSION["user_role"] == '0') {
+                            $sql1 = "SELECT * FROM coupon_code";
+                        }
+                        $result_1 = mysqli_query($conn, $sql1);
+                        if (mysqli_num_rows($result_1)) {
+                            $total_record = mysqli_num_rows($result_1);
+                            $total_page = ceil($total_record / $limit);
+                        ?>
+                            <div class="row mt-2">
+                                <ul class="pagination justify-content-center">
+                                    <?php if ($page > 1) {
+                                        echo " <li class='page-item'>
+                                    <a class='page-link' href='coupons.php?page=" . ($page - 1) . "' aria-label='Previous'>
+                                        <span aria-hidden='true'>&laquo;</span>
+                                    </a>
+                                </li>";
+                                    }
+
+                                    if ($total_record > $limit) {
+                                        for ($i = 1; $i <= $total_page; $i++) {
+                                            if ($i == $page) {
+                                                $cls = 'active';
+                                            } else {
+                                                $cls = '';
+                                            }
+                                            echo "<li class='page-item {$cls}'>
+                                        <a class='page-link' href='coupons.php?page=" . $i . "'>$i</a>
+                                    </li>";
+                                        }
+                                    }
+
+                                    if ($total_page > $page) {
+                                        echo " <li class='page-item'>
+                                    <a class='page-link' href='coupons.php?page=" . ($page + 1) . "' aria-label='Next'>
+                                        <span aria-hidden='true'>&raquo;</span>
+                                    </a>
+                                </li>";
+                                    }
+                                    ?>
+                                </ul>
+                            <?php } ?>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Coupon table ends here -->
+    </div>
+</main>
+<!-- Coupon table ends here -->
+
+<?php include './includes/footer.php'; ?>
+<script>
+    // search inside coupon table
+    function myFunction() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("searchCoupon");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("couponTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>

@@ -1,0 +1,50 @@
+@media (max-widt:1030px){
+/*home css*/
+    .home .home-banner-1,
+    .home .home-banner-2{
+        background-position: 65% center;
+        min-height: 550px;
+    }
+    .home .home-banner .home-banner-text{
+        transform: translate(-80%, -50%);
+    }
+    /*Offers Css*/
+    .offers .offer-box .offer-info .heading-bigger{
+        font-size: 3rem;
+    }
+}
+
+@media (max-widt:991px){
+    /*home css*/
+    
+    .home .home-banner .home-banner-text{
+        transform: translate(-66%, -50%);
+    }
+}
+@media (max-widt:767px){
+    /*home css*/
+    .home .home-banner-1,
+    .home .home-banner-2{
+        background-position: 50% center;
+        width: 100%;
+        transform: translate(-50%, -50);
+    }
+    .home .home-banner .home-banner-text h1{
+        font-size: 3rem;
+    }
+    .home .home-banner .home-banner-text h2{
+        font-size: 1rem;
+    }
+    .home .home-banner .home-banner-text .btn-danger{
+        padding: 0.5rem 1.5rem;
+    }
+    .home .slider-icon{
+        font-size: 2rem;
+    }
+}
+@media (max-widt:350px){
+    /*home css*/
+    .home .home-banner .home-banner-text h2{
+        font-size: 1rem;
+    }    
+}

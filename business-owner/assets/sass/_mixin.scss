@@ -1,0 +1,6 @@
+// cards mixin
+@mixin cards($border-color) {
+  .border-left-primary {
+    border-left: 0.25rem solid $border-color !important;
+  }
+}
